@@ -1,7 +1,11 @@
 # 🎯 12가지 프롬프트 기법 셀렉터 (Python GUI)
 
-PyWebView를 사용한 **데스크톱 GUI 애플리케이션**입니다.
-웹 디자인의 아름다움과 Python의 강력함을 결합했습니다! 🚀
+**데스크톱 GUI 애플리케이션** - 2가지 버전 제공! 🚀
+
+- **Flask 버전** ⭐ 추천 - 간단 설치, 브라우저에서 실행
+- **PyWebView 버전** - 네이티브 데스크톱 앱
+
+웹 디자인의 아름다움과 Python의 강력함을 결합했습니다!
 
 ## ✨ 특징
 
@@ -11,26 +15,50 @@ PyWebView를 사용한 **데스크톱 GUI 애플리케이션**입니다.
 - 📝 **히스토리 자동 저장** - 모든 작업 기록 보관
 - 🔄 **실시간 통신** - Python 백엔드와 JavaScript 프론트엔드 완벽 연동
 
-## 📦 설치
+## 📦 설치 및 실행
 
-### 1. 필수 요구사항
+### 🌟 방법 1: Flask 버전 (추천 - 간단함!)
 
-- Python 3.7 이상
-- pip
+**Windows에서 PyWebView 설치에 문제가 있다면 이 방법을 사용하세요!**
 
-### 2. 의존성 설치
+1. **의존성 설치**
+```bash
+cd python_gui
+pip install -r requirements_flask.txt
+```
 
+2. **실행**
+```bash
+python main_gui_flask.py
+```
+
+브라우저가 자동으로 열리며 `http://127.0.0.1:5000`에서 GUI를 볼 수 있습니다!
+
+**장점:**
+- ✅ 설치 매우 간단 (Flask만 필요)
+- ✅ 모든 플랫폼에서 동일하게 작동
+- ✅ 브라우저에서 실행
+- ✅ API 키 영구 저장
+- ✅ 히스토리 자동 저장
+
+**설치되는 패키지:**
+- `flask` - 웹 프레임워크
+- `requests` - AI API 호출
+- `python-dotenv` - 환경변수 관리
+
+---
+
+### 💻 방법 2: PyWebView 버전 (네이티브 앱)
+
+**독립 실행 가능한 데스크톱 애플리케이션을 원한다면 이 방법을 사용하세요.**
+
+1. **의존성 설치**
 ```bash
 cd python_gui
 pip install -r requirements.txt
 ```
 
-**설치되는 패키지:**
-- `pywebview` - Python GUI 프레임워크
-- `requests` - AI API 호출
-- `python-dotenv` - 환경변수 관리
-
-### 3. 플랫폼별 추가 요구사항
+2. **플랫폼별 추가 요구사항**
 
 #### Windows
 ```bash
@@ -48,19 +76,17 @@ sudo apt-get install python3-gi python3-gi-cairo gir1.2-gtk-3.0 gir1.2-webkit2-4
 pip install pywebview[gtk]
 ```
 
-## 🚀 실행
-
+3. **실행**
 ```bash
-# GUI 앱 실행
 python main_gui.py
 ```
 
-또는 실행 권한 부여 후:
+**장점:**
+- ✅ 네이티브 앱 윈도우
+- ✅ 독립 실행 파일로 배포 가능
+- ✅ 완전한 데스크톱 앱 경험
 
-```bash
-chmod +x main_gui.py
-./main_gui.py
-```
+**주의:** Windows에서 `pythonnet` 빌드 오류가 발생하면 Flask 버전을 사용하세요!
 
 ## 🎮 사용 방법
 
@@ -110,9 +136,11 @@ chmod +x main_gui.py
 
 ```
 python_gui/
-├── main_gui.py          # 메인 실행 파일 (PyWebView 앱)
+├── main_gui_flask.py    # ⭐ Flask 버전 (추천)
+├── main_gui.py          # PyWebView 버전
 ├── gui.html             # 프론트엔드 (HTML/CSS/JS)
-├── requirements.txt     # 의존성 목록
+├── requirements_flask.txt  # Flask 의존성 목록
+├── requirements.txt     # PyWebView 의존성 목록
 └── README.md            # 이 파일
 
 공유 모듈 (../python_app/):
@@ -131,11 +159,13 @@ python_gui/
 
 ### 백엔드
 - **Python 3.7+** - 메인 언어
-- **PyWebView** - GUI 프레임워크
+- **Flask** (Flask 버전) - 웹 프레임워크
+- **PyWebView** (PyWebView 버전) - GUI 프레임워크
 - **Requests** - HTTP 통신
 
 ### 통신
-- **PyWebView API** - Python ↔ JavaScript 양방향 통신
+- **Flask REST API** (Flask 버전) - HTTP JSON 통신
+- **PyWebView API** (PyWebView 버전) - Python ↔ JavaScript 양방향 통신
 
 ## 🎯 주요 기능
 
@@ -173,19 +203,49 @@ python_gui/
 
 ## 🐛 문제 해결
 
+### Windows에서 설치 문제 발생시
+
+**pythonnet 빌드 오류 발생:**
+```
+❌ Failed building wheel for pythonnet
+```
+
+**해결방법:** Flask 버전을 사용하세요! (훨씬 간단함)
+```bash
+pip install -r requirements_flask.txt
+python main_gui_flask.py
+```
+
 ### PyWebView 설치 오류
 
-**Windows에서 설치 실패:**
+**Windows:**
 ```bash
 pip install --upgrade pip
 pip install pywebview[winforms]
 ```
 
-**Linux에서 설치 실패:**
+**Linux:**
 ```bash
 sudo apt-get update
 sudo apt-get install python3-gi gir1.2-webkit2-4.0
 pip install pywebview[gtk]
+```
+
+**여전히 실패한다면:**
+→ Flask 버전 사용 (requirements_flask.txt)
+
+### Flask 버전 문제
+
+**포트가 이미 사용 중:**
+```bash
+# main_gui_flask.py 수정
+app.run(host='127.0.0.1', port=5001)  # 다른 포트 사용
+```
+
+**브라우저가 자동으로 열리지 않음:**
+```bash
+# 수동으로 브라우저 열기
+http://127.0.0.1:5000
 ```
 
 ### 앱이 실행되지 않음
@@ -197,13 +257,11 @@ pip install pywebview[gtk]
 
 2. **의존성 재설치:**
    ```bash
-   pip install --force-reinstall -r requirements.txt
-   ```
+   # Flask 버전
+   pip install --force-reinstall -r requirements_flask.txt
 
-3. **디버그 모드 실행:**
-   ```python
-   # main_gui.py에서 debug=True로 설정
-   webview.start(debug=True)
+   # 또는 PyWebView 버전
+   pip install --force-reinstall -r requirements.txt
    ```
 
 ### API 키 문제
