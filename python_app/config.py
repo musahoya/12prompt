@@ -5,12 +5,16 @@
 import os
 import json
 from pathlib import Path
+from dotenv import load_dotenv
 
 
 class Config:
     """애플리케이션 설정 관리"""
 
     def __init__(self):
+        # .env 파일 로드 (현재 디렉토리와 상위 디렉토리에서 찾음)
+        load_dotenv()
+
         self.config_dir = Path.home() / '.12prompt'
         self.config_file = self.config_dir / 'config.json'
         self.history_file = self.config_dir / 'history.json'
