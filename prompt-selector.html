@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>12가지 프롬프트 기법 셀렉터</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .card {
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .card.selected {
+            border: 3px solid #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+        .difficulty-easy { background: #10b981; }
+        .difficulty-medium { background: #f59e0b; }
+        .difficulty-hard { background: #ef4444; }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 min-h-screen p-4">
+    <div class="container mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden my-8 max-w-7xl">
+        <!-- Header -->
+        <header class="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white p-8 text-center">
+            <h1 class="text-4xl font-extrabold mb-3">🎯 12가지 프롬프트 기법 셀렉터</h1>
+            <p class="text-xl opacity-90">AI 프롬프트 엔지니어링 완전 가이드</p>
+        </header>
+
+        <div class="p-8">
+            <!-- STEP 1: AI 모델 선택 -->
+            <section class="mb-8 p-6 bg-gray-50 rounded-2xl border-l-4 border-blue-500">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <span class="flex items-center justify-center w-10 h-10 bg-blue-500 text-white rounded-full mr-4 text-lg">1</span>
+                    AI 모델 선택
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" id="modelSelection">
+                    <div class="card cursor-pointer p-6 border-2 border-gray-300 rounded-xl bg-white" data-model="gpt">
+                        <div class="text-5xl mb-3 text-center">🤖</div>
+                        <h3 class="text-xl font-bold text-gray-800 text-center mb-2">ChatGPT</h3>
+                        <p class="text-gray-600 text-center text-sm">OpenAI GPT-4o</p>
+                    </div>
+                    <div class="card cursor-pointer p-6 border-2 border-gray-300 rounded-xl bg-white" data-model="claude">
+                        <div class="text-5xl mb-3 text-center">🧠</div>
+                        <h3 class="text-xl font-bold text-gray-800 text-center mb-2">Claude</h3>
+                        <p class="text-gray-600 text-center text-sm">Anthropic Claude 3.5 Sonnet</p>
+                    </div>
+                    <div class="card cursor-pointer p-6 border-2 border-gray-300 rounded-xl bg-white" data-model="gemini">
+                        <div class="text-5xl mb-3 text-center">✨</div>
+                        <h3 class="text-xl font-bold text-gray-800 text-center mb-2">Gemini</h3>
+                        <p class="text-gray-600 text-center text-sm">Google Gemini 2.0 Flash</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- STEP 2: API 키 입력 -->
+            <section class="mb-8 p-6 bg-gray-50 rounded-2xl border-l-4 border-purple-500">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <span class="flex items-center justify-center w-10 h-10 bg-purple-500 text-white rounded-full mr-4 text-lg">2</span>
+                    API 키 입력
+                </h2>
+                <input type="password" id="apiKey" placeholder="API 키를 입력하세요"
+                       class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-purple-500 mb-4">
+                <div class="bg-blue-50 border-l-4 border-blue-400 text-blue-700 p-4 rounded-md">
+                    <p class="text-sm">
+                        <strong>API 키 발급:</strong><br>
+                        • ChatGPT: <a href="https://platform.openai.com/api-keys" target="_blank" class="underline">platform.openai.com/api-keys</a><br>
+                        • Claude: <a href="https://console.anthropic.com/settings/keys" target="_blank" class="underline">console.anthropic.com/settings/keys</a><br>
+                        • Gemini: <a href="https://ai.google.dev/gemini-api/docs/api-key" target="_blank" class="underline">ai.google.dev/gemini-api/docs/api-key</a>
+                    </p>
+                </div>
+            </section>
+
+            <!-- STEP 3: 프롬프트 기법 선택 -->
+            <section class="mb-8 p-6 bg-gray-50 rounded-2xl border-l-4 border-pink-500">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <span class="flex items-center justify-center w-10 h-10 bg-pink-500 text-white rounded-full mr-4 text-lg">3</span>
+                    프롬프트 기법 선택
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4" id="techniqueSelection">
+                    <!-- 기법 카드들이 여기에 동적으로 생성됩니다 -->
+                </div>
+            </section>
+
+            <!-- STEP 4: 입력 필드 -->
+            <section class="mb-8 p-6 bg-gray-50 rounded-2xl border-l-4 border-green-500">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                    <span class="flex items-center justify-center w-10 h-10 bg-green-500 text-white rounded-full mr-4 text-lg">4</span>
+                    필요 정보 입력
+                </h2>
+                <div id="inputFields">
+                    <p class="text-gray-600">위에서 프롬프트 기법을 선택하면 입력 필드가 나타납니다.</p>
+                </div>
+            </section>
+
+            <!-- 실행 버튼 -->
+            <div class="flex gap-4 mb-8">
+                <button id="generateBtn" disabled
+                        class="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-xl text-lg font-bold hover:from-blue-700 hover:to-purple-700 transition disabled:opacity-50 disabled:cursor-not-allowed">
+                    ✨ AI에게 전송하고 결과 받기
+                </button>
+                <button id="resetBtn"
+                        class="bg-gray-500 text-white px-8 py-4 rounded-xl text-lg font-bold hover:bg-gray-600 transition">
+                    🔄 초기화
+                </button>
+            </div>
+
+            <!-- 로딩 -->
+            <div id="loading" class="hidden text-center mb-8">
+                <div class="inline-block animate-spin rounded-full h-16 w-16 border-b-4 border-purple-600"></div>
+                <p class="mt-4 text-lg text-gray-700 font-semibold">AI가 답변을 생성하고 있습니다...</p>
+            </div>
+
+            <!-- 에러 -->
+            <div id="error" class="hidden mb-8 bg-red-50 border-l-4 border-red-500 text-red-700 p-6 rounded-lg">
+                <p class="font-bold text-lg mb-2">⚠️ 오류 발생</p>
+                <p id="errorMessage"></p>
+            </div>
+
+            <!-- 결과 -->
+            <div id="result" class="hidden mb-8 p-6 bg-gray-50 rounded-2xl border-2 border-gray-200">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">📋 AI 응답 결과</h3>
+                    <button id="copyBtn" class="bg-blue-500 text-white px-6 py-2 rounded-lg font-bold hover:bg-blue-600 transition">
+                        📋 복사
+                    </button>
+                </div>
+                <pre id="resultContent" class="bg-white p-6 border-2 border-gray-200 rounded-lg whitespace-pre-wrap font-mono text-sm max-h-[600px] overflow-auto"></pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 상태 관리
+        const state = {
+            selectedModel: null,
+            selectedTechnique: null,
+            apiKey: '',
+            inputValues: {}
+        };
+
+        // 12가지 프롬프트 기법 정의
+        const techniques = {
+            'few-shot': {
+                name: '🎯 Few-Shot 기법',
+                difficulty: 'medium',
+                description: '소수의 예시로 패턴 학습',
+                fields: [
+                    { id: 'example1_input', label: '예시 1 - 입력', type: 'text', placeholder: '예: 이 제품은 정말 훌륭합니다!' },
+                    { id: 'example1_output', label: '예시 1 - 출력', type: 'text', placeholder: '예: 긍정 (신뢰도: 95%)' },
+                    { id: 'example2_input', label: '예시 2 - 입력', type: 'text', placeholder: '예: 배송이 너무 느려서 실망했어요.' },
+                    { id: 'example2_output', label: '예시 2 - 출력', type: 'text', placeholder: '예: 부정 (신뢰도: 90%)' },
+                    { id: 'example3_input', label: '예시 3 - 입력', type: 'text', placeholder: '예: 그저 그래요.' },
+                    { id: 'example3_output', label: '예시 3 - 출력', type: 'text', placeholder: '예: 중립 (신뢰도: 85%)' },
+                    { id: 'actual_input', label: '실제 분석할 내용', type: 'textarea', placeholder: '분석하고 싶은 내용을 입력하세요' }
+                ],
+                generatePrompt: (data) => `다음 예시들을 참고하여 패턴을 학습하고, 동일한 형식으로 답변해주세요:
+
+예시1:
+입력: ${data.example1_input}
+출력: ${data.example1_output}
+
+예시2:
+입력: ${data.example2_input}
+출력: ${data.example2_output}
+
+예시3:
+입력: ${data.example3_input}
+출력: ${data.example3_output}
+
+이제 다음 내용을 분석해주세요:
+입력: ${data.actual_input}
+출력:`
+            },
+            'role-playing': {
+                name: '👤 역할 지정 기법',
+                difficulty: 'easy',
+                description: '전문가 역할 부여',
+                fields: [
+                    { id: 'role', label: '역할 (직업)', type: 'text', placeholder: '예: 세무사' },
+                    { id: 'experience', label: '경력/자격', type: 'text', placeholder: '예: 10년 경력, 공인회계사' },
+                    { id: 'personality', label: '성격/태도', type: 'text', placeholder: '예: 친절하고 상세한 설명을 제공하는' },
+                    { id: 'scope', label: '업무 범위', type: 'textarea', placeholder: '예: 세금 신고, 절세 전략, 세무 상담' },
+                    { id: 'constraints', label: '제약사항', type: 'textarea', placeholder: '예: 법적 조언은 하지 않음, 최종 결정은 세무사 상담 권장' },
+                    { id: 'question', label: '질문/작업', type: 'textarea', placeholder: '질문이나 요청사항을 입력하세요' }
+                ],
+                generatePrompt: (data) => `당신은 ${data.experience}의 ${data.role}입니다.
+성격: ${data.personality}
+
+업무 범위:
+${data.scope}
+
+제약사항:
+${data.constraints}
+
+질문/작업: ${data.question}
+
+위 역할과 제약사항을 준수하여 답변해주세요.`
+            },
+            'markdown': {
+                name: '📝 마크다운 활용 기법',
+                difficulty: 'easy',
+                description: '구조화된 문서 작성',
+                fields: [
+                    { id: 'title', label: '문서 제목', type: 'text', placeholder: '예: 2025년 마케팅 전략 보고서' },
+                    { id: 'sections', label: '주요 섹션 (쉼표로 구분)', type: 'text', placeholder: '예: 시장 분석, 경쟁사 분석, 전략 제안, 실행 계획' },
+                    { id: 'content_requirement', label: '내용 요구사항', type: 'textarea', placeholder: '각 섹션에 포함되어야 할 내용을 설명하세요' },
+                    { id: 'format_requirement', label: '형식 요구사항', type: 'textarea', placeholder: '예: 표, 목록, 코드 블록 등 필요한 형식' }
+                ],
+                generatePrompt: (data) => `다음 마크다운 구조로 문서를 작성해주세요:
+
+# ${data.title}
+
+주요 섹션: ${data.sections}
+
+내용 요구사항:
+${data.content_requirement}
+
+형식 요구사항:
+${data.format_requirement}
+
+위 구조를 따라 마크다운 형식으로 체계적인 문서를 작성해주세요.
+제목은 #, ##, ###을 사용하고, 필요에 따라 표, 목록, 강조 등을 활용하세요.`
+            },
+            'fukkatsu': {
+                name: '⚙️ 후카츠 프롬프트 기법',
+                difficulty: 'medium',
+                description: '4단계 구조화',
+                fields: [
+                    { id: 'command', label: '# 명령문 (역할과 작업)', type: 'textarea', placeholder: '예: 당신은 데이터 분석 전문가입니다. 매출 데이터를 분석하고 인사이트를 도출하세요.' },
+                    { id: 'constraints', label: '# 제약조건', type: 'textarea', placeholder: '예:\n- 길이: 500자 이내\n- 어조: 전문적\n- 금지: 추측성 발언\n- 필수: 데이터 기반 근거' },
+                    { id: 'input', label: '# 입력문 (처리할 데이터)', type: 'textarea', placeholder: '분석할 데이터나 정보를 입력하세요' },
+                    { id: 'output', label: '# 출력문 (결과 형식)', type: 'textarea', placeholder: '예:\n## 주요 인사이트\n- [인사이트 1]\n- [인사이트 2]\n\n## 권장사항\n- [권장사항 1]' }
+                ],
+                generatePrompt: (data) => `# 명령문
+${data.command}
+
+# 제약조건
+${data.constraints}
+
+# 입력문
+${data.input}
+
+# 출력문
+다음 형식으로 출력하세요:
+${data.output}`
+            },
+            'format-spec': {
+                name: '📊 형식 지정 기법',
+                difficulty: 'easy',
+                description: 'JSON/CSV 등 형식 고정',
+                fields: [
+                    { id: 'format_type', label: '출력 형식', type: 'select', options: ['JSON', 'CSV', 'XML', 'YAML', '마크다운 표'], placeholder: 'JSON' },
+                    { id: 'schema', label: '스키마/구조', type: 'textarea', placeholder: 'JSON 예:\n{\n  "name": "string",\n  "age": number,\n  "tags": ["string"]\n}' },
+                    { id: 'data_source', label: '처리할 데이터/내용', type: 'textarea', placeholder: '추출하거나 변환할 데이터를 입력하세요' }
+                ],
+                generatePrompt: (data) => `다음 ${data.format_type} 형식으로 정확히 출력하세요:
+
+스키마/구조:
+${data.schema}
+
+중요: ${data.format_type} 형식만 출력하고, 다른 설명이나 텍스트는 포함하지 마세요.
+
+처리할 데이터:
+${data.data_source}
+
+${data.format_type}:`
+            },
+            'shunsuke': {
+                name: '🔧 슌스케 템플릿 기법',
+                difficulty: 'hard',
+                description: '프로그래밍적 설계',
+                fields: [
+                    { id: 'variables', label: '변수 정의', type: 'textarea', placeholder: '예:\n$대상고객 = 20-30대 직장인\n$목표 = 매출 30% 증가\n$예산 = 5000만원' },
+                    { id: 'steps', label: '실행 단계', type: 'textarea', placeholder: '예:\nSTEP 1: $대상고객 분석\nSTEP 2: 전략 수립 ($예산 고려)\nSTEP 3: 실행 계획 작성\nSTEP 4: 예상 효과 계산' },
+                    { id: 'conditions', label: '조건/반복 로직 (선택)', type: 'textarea', placeholder: '예:\nIF $예산 < 3000만원 THEN 온라인 마케팅 집중\nFOR EACH 채널 IN [SNS, 블로그, 이메일]' }
+                ],
+                generatePrompt: (data) => `# === 변수 정의 ===
+${data.variables}
+
+# === 실행 단계 ===
+${data.steps}
+
+${data.conditions ? `# === 조건/반복 로직 ===\n${data.conditions}\n` : ''}
+위 단계를 순서대로 실행하고, 각 STEP의 결과를 명시하세요.
+변수를 참조할 때는 $변수명 형식을 사용하세요.`
+            },
+            'qa': {
+                name: '❓ Q&A 기법',
+                difficulty: 'medium',
+                description: '질문-답변 패턴 학습',
+                fields: [
+                    { id: 'q1', label: '예시 질문 1', type: 'text', placeholder: '예: Python에서 리스트를 어떻게 만드나요?' },
+                    { id: 'a1', label: '예시 답변 1', type: 'textarea', placeholder: '예: 대괄호 []를 사용합니다. 예: my_list = [1, 2, 3]' },
+                    { id: 'q2', label: '예시 질문 2', type: 'text', placeholder: '예: 딕셔너리는 무엇인가요?' },
+                    { id: 'a2', label: '예시 답변 2', type: 'textarea', placeholder: '예: 키-값 쌍을 저장하는 자료구조입니다. 예: my_dict = {"name": "홍길동"}' },
+                    { id: 'actual_q', label: '실제 질문', type: 'textarea', placeholder: '답변받고 싶은 질문을 입력하세요' }
+                ],
+                generatePrompt: (data) => `다음 Q&A 예시들의 스타일과 형식을 학습하여, 동일한 방식으로 답변해주세요:
+
+Q: ${data.q1}
+A: ${data.a1}
+
+Q: ${data.q2}
+A: ${data.a2}
+
+이제 다음 질문에 같은 스타일로 답변해주세요:
+
+Q: ${data.actual_q}
+A:`
+            },
+            'continuation': {
+                name: '✍️ 이어쓰기 기법',
+                difficulty: 'easy',
+                description: '자연스러운 문장 완성',
+                fields: [
+                    { id: 'context', label: '맥락/배경', type: 'textarea', placeholder: '예: 블로그 포스트, 소설, 보고서 등' },
+                    { id: 'tone', label: '톤/스타일', type: 'text', placeholder: '예: 전문적, 친근한, 유머러스한, 학술적' },
+                    { id: 'target', label: '대상 독자', type: 'text', placeholder: '예: 일반인, 전문가, 초보자' },
+                    { id: 'length', label: '목표 길이', type: 'text', placeholder: '예: 200-300자, 3-4 문단' },
+                    { id: 'start_text', label: '시작 텍스트', type: 'textarea', placeholder: '이어서 작성할 문장의 시작 부분을 입력하세요' }
+                ],
+                generatePrompt: (data) => `다음 조건에 맞춰 텍스트를 이어서 작성해주세요:
+
+맥락/배경: ${data.context}
+톤/스타일: ${data.tone}
+대상 독자: ${data.target}
+목표 길이: ${data.length}
+
+시작 텍스트:
+${data.start_text}
+
+위 시작 텍스트를 자연스럽게 이어서 작성해주세요:`
+            },
+            'cot': {
+                name: '🧠 Chain of Thought 기법',
+                difficulty: 'hard',
+                description: '단계별 추론',
+                fields: [
+                    { id: 'problem', label: '문제/질문', type: 'textarea', placeholder: '복잡한 문제나 질문을 입력하세요' },
+                    { id: 'verification', label: '검증 기준 (선택)', type: 'textarea', placeholder: '예: 계산 결과 확인, 논리적 일관성 체크' }
+                ],
+                generatePrompt: (data) => `문제: ${data.problem}
+
+위 문제를 해결하기 위해 단계별로 생각해봅시다:
+
+단계 1: [문제 이해 및 분석]
+단계 2: [접근 방법 결정]
+단계 3: [세부 단계 실행]
+단계 4: [중간 결과 확인]
+단계 5: [최종 답변 도출]
+
+${data.verification ? `검증 기준:\n${data.verification}\n` : ''}
+각 단계의 사고 과정을 명시적으로 보여주고, 최종 답변을 제시해주세요.`
+            },
+            'multi-persona': {
+                name: '👥 멀티 페르소나 기법',
+                difficulty: 'hard',
+                description: '다각적 분석',
+                fields: [
+                    { id: 'topic', label: '분석 주제/문제', type: 'textarea', placeholder: '다각도로 분석하고 싶은 주제나 문제를 입력하세요' },
+                    { id: 'persona1', label: '페르소나 1 (역할, 관점)', type: 'text', placeholder: '예: 재무 전문가 - 비용과 ROI 중심' },
+                    { id: 'persona2', label: '페르소나 2 (역할, 관점)', type: 'text', placeholder: '예: 마케팅 전문가 - 고객 경험과 브랜드 중심' },
+                    { id: 'persona3', label: '페르소나 3 (역할, 관점)', type: 'text', placeholder: '예: 기술 전문가 - 구현 가능성과 기술적 위험 중심' }
+                ],
+                generatePrompt: (data) => `주제: ${data.topic}
+
+위 주제에 대해 3가지 다른 전문가 관점에서 분석해주세요:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 페르소나 1: ${data.persona1}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[이 관점에서의 분석]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💡 페르소나 2: ${data.persona2}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[이 관점에서의 분석]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔧 페르소나 3: ${data.persona3}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[이 관점에서의 분석]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ 종합 결론
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[3가지 관점을 종합한 최종 결론과 권장사항]`
+            },
+            'anti-hallucination': {
+                name: '🛡️ 할루시네이션 방지 기법',
+                difficulty: 'medium',
+                description: '사실 기반 답변',
+                fields: [
+                    { id: 'query', label: '질문/확인 사항', type: 'textarea', placeholder: '사실 확인이 중요한 질문을 입력하세요' },
+                    { id: 'domain', label: '분야', type: 'select', options: ['일반', '의학/건강', '법률', '금융/투자', '역사', '최신 뉴스'], placeholder: '일반' }
+                ],
+                generatePrompt: (data) => {
+                    const domainWarnings = {
+                        '의학/건강': '\n⚠️ 의학 정보는 일반적인 내용만 제공하며, 전문의 상담이 필수임을 명시하세요.',
+                        '법률': '\n⚠️ 법률 정보는 참고용이며, 정확한 법적 조언은 변호사 상담이 필요함을 명시하세요.',
+                        '금융/투자': '\n⚠️ 투자 정보는 참고용이며, 투자 결정은 본인 책임임을 명시하세요.',
+                        '역사': '\n⚠️ 역사적 사실은 공식 기록을 기반으로 하며, 해석과 사실을 구분하세요.',
+                        '최신 뉴스': '\n⚠️ 정보의 시점을 명확히 하고, 최신 정보 확인을 권장하세요.'
+                    };
+
+                    return `질문: ${data.query}
+${domainWarnings[data.domain] || ''}
+
+다음 규칙을 엄격히 준수하여 답변하세요:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 필수 준수 사항
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. 확인된 사실만 답변
+   - 공식 자료, 학술 자료, 정부 기관 자료 우선
+   - 출처를 명시: [기관/저자, 발행일, URL/문헌]
+
+2. 불확실성 표현
+   - 확실: "~입니다"
+   - 개연성 높음: "~로 알려져 있습니다"
+   - 불확실: "정확한 정보를 확인할 수 없습니다"
+
+3. 금지 사항
+   - ❌ 존재하지 않는 출처 인용
+   - ❌ 추측을 사실처럼 표현
+   - ❌ 날짜, 숫자, 이름 추측
+   - ❌ "아마도", "~것 같습니다" 등 애매한 표현
+
+4. 모를 때의 답변
+   "해당 정보를 확인할 수 없습니다. 다음 출처를 참고하세요: [신뢰할 수 있는 출처 제안]"
+
+답변:`;
+                }
+            },
+            'react': {
+                name: '🔄 ReAct 기법',
+                difficulty: 'hard',
+                description: '추론과 행동 반복',
+                fields: [
+                    { id: 'goal', label: '최종 목표', type: 'textarea', placeholder: '예: 2025년 한국 최저임금을 조사하고, 월 209시간 근무자의 급여를 계산하세요' },
+                    { id: 'tools', label: '사용 가능한 도구', type: 'textarea', placeholder: '예:\n- web_search(): 웹 검색\n- calculate(): 계산\n- data_analysis(): 데이터 분석' }
+                ],
+                generatePrompt: (data) => `목표: ${data.goal}
+
+사용 가능한 도구:
+${data.tools}
+
+ReAct 사이클을 사용하여 목표를 달성하세요. 각 사이클은 다음 형식을 따릅니다:
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔄 Cycle 1
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+💭 Thought (생각):
+현재 상황: [목표와 현재 상태]
+알고 있는 것: [기존 정보]
+모르는 것: [필요한 정보]
+다음 행동: [계획]
+
+🎯 Action (행동):
+사용할 도구: [도구명]
+실행 내용: [구체적 행동]
+
+👁️ Observation (관찰):
+결과: [행동의 결과]
+발견: [새로 알게 된 정보]
+
+📊 Evaluation (평가):
+달성도: [0-100%]
+다음 단계 필요: [예/아니오]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+필요한 만큼 사이클을 반복하고, 최종적으로 다음 형식으로 답변하세요:
+
+✅ 최종 답변
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[목표에 대한 명확한 답변]
+
+실행 과정 요약:
+- 총 사이클 수: [N]
+- 사용한 도구: [목록]
+- 핵심 발견: [요약]`
+            }
+        };
+
+        // UI 렌더링
+        function renderTechniques() {
+            const container = document.getElementById('techniqueSelection');
+            container.innerHTML = Object.entries(techniques).map(([key, tech]) => {
+                const difficultyClass = tech.difficulty === 'easy' ? 'difficulty-easy' :
+                                       tech.difficulty === 'medium' ? 'difficulty-medium' : 'difficulty-hard';
+                const difficultyText = tech.difficulty === 'easy' ? '쉬움' :
+                                      tech.difficulty === 'medium' ? '보통' : '어려움';
+
+                return `
+                    <div class="card cursor-pointer p-5 border-2 border-gray-300 rounded-xl bg-white ${state.selectedTechnique === key ? 'selected' : ''}"
+                         data-technique="${key}">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-lg font-bold text-gray-800">${tech.name}</h3>
+                            <span class="${difficultyClass} text-white text-xs px-2 py-1 rounded-full font-bold">${difficultyText}</span>
+                        </div>
+                        <p class="text-gray-600 text-sm">${tech.description}</p>
+                        <p class="text-gray-500 text-xs mt-2">${tech.fields.length}개 입력 필드</p>
+                    </div>
+                `;
+            }).join('');
+
+            // 이벤트 리스너
+            container.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('click', () => {
+                    state.selectedTechnique = card.dataset.technique;
+                    state.inputValues = {};
+                    renderTechniques();
+                    renderInputFields();
+                    checkFormValid();
+                });
+            });
+        }
+
+        function renderInputFields() {
+            const container = document.getElementById('inputFields');
+
+            if (!state.selectedTechnique) {
+                container.innerHTML = '<p class="text-gray-600">위에서 프롬프트 기법을 선택하면 입력 필드가 나타납니다.</p>';
+                return;
+            }
+
+            const technique = techniques[state.selectedTechnique];
+            container.innerHTML = technique.fields.map(field => {
+                if (field.type === 'select') {
+                    return `
+                        <div class="mb-4">
+                            <label class="block text-gray-700 font-semibold mb-2">${field.label}</label>
+                            <select id="${field.id}" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-green-500">
+                                ${field.options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                            </select>
+                        </div>
+                    `;
+                } else if (field.type === 'textarea') {
+                    return `
+                        <div class="mb-4">
+                            <label class="block text-gray-700 font-semibold mb-2">${field.label}</label>
+                            <textarea id="${field.id}" placeholder="${field.placeholder}"
+                                      class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-green-500 min-h-[100px]"></textarea>
+                        </div>
+                    `;
+                } else {
+                    return `
+                        <div class="mb-4">
+                            <label class="block text-gray-700 font-semibold mb-2">${field.label}</label>
+                            <input type="text" id="${field.id}" placeholder="${field.placeholder}"
+                                   class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-green-500">
+                        </div>
+                    `;
+                }
+            }).join('');
+
+            // 이벤트 리스너
+            technique.fields.forEach(field => {
+                const element = document.getElementById(field.id);
+                element.addEventListener('input', (e) => {
+                    state.inputValues[field.id] = e.target.value;
+                    checkFormValid();
+                });
+                // 초기값 설정 (select의 경우)
+                if (field.type === 'select') {
+                    state.inputValues[field.id] = element.value;
+                }
+            });
+        }
+
+        // 모델 선택
+        document.getElementById('modelSelection').addEventListener('click', (e) => {
+            const card = e.target.closest('[data-model]');
+            if (card) {
+                document.querySelectorAll('#modelSelection .card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                state.selectedModel = card.dataset.model;
+                checkFormValid();
+            }
+        });
+
+        // API 키 입력
+        document.getElementById('apiKey').addEventListener('input', (e) => {
+            state.apiKey = e.target.value;
+            checkFormValid();
+        });
+
+        // 폼 유효성 검사
+        function checkFormValid() {
+            let isValid = state.selectedModel && state.apiKey && state.selectedTechnique;
+
+            if (isValid && state.selectedTechnique) {
+                const technique = techniques[state.selectedTechnique];
+                technique.fields.forEach(field => {
+                    if (!state.inputValues[field.id] || !state.inputValues[field.id].trim()) {
+                        isValid = false;
+                    }
+                });
+            }
+
+            document.getElementById('generateBtn').disabled = !isValid;
+        }
+
+        // API 호출 함수들
+        async function callGPT(prompt, apiKey) {
+            const response = await fetch('https://api.openai.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: JSON.stringify({
+                    model: 'gpt-4o',
+                    messages: [{ role: 'user', content: prompt }],
+                    max_tokens: 4000,
+                    temperature: 0.7
+                })
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.error?.message || '알 수 없는 오류');
+            }
+
+            const data = await response.json();
+            return data.choices[0].message.content;
+        }
+
+        async function callClaude(prompt, apiKey) {
+            const response = await fetch('https://api.anthropic.com/v1/messages', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-api-key': apiKey,
+                    'anthropic-version': '2023-06-01'
+                },
+                body: JSON.stringify({
+                    model: 'claude-3-5-sonnet-20241022',
+                    max_tokens: 4000,
+                    messages: [{ role: 'user', content: prompt }]
+                })
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.error?.message || '알 수 없는 오류');
+            }
+
+            const data = await response.json();
+            return data.content[0].text;
+        }
+
+        async function callGemini(prompt, apiKey) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${apiKey}`;
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: [{ parts: [{ text: prompt }] }],
+                    generationConfig: {
+                        temperature: 0.7,
+                        maxOutputTokens: 4000
+                    }
+                })
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.error?.message || '알 수 없는 오류');
+            }
+
+            const data = await response.json();
+            return data.candidates[0].content.parts[0].text;
+        }
+
+        // 생성 버튼
+        document.getElementById('generateBtn').addEventListener('click', async () => {
+            const technique = techniques[state.selectedTechnique];
+            const prompt = technique.generatePrompt(state.inputValues);
+
+            // UI 업데이트
+            document.getElementById('loading').classList.remove('hidden');
+            document.getElementById('error').classList.add('hidden');
+            document.getElementById('result').classList.add('hidden');
+
+            try {
+                let result;
+                switch (state.selectedModel) {
+                    case 'gpt':
+                        result = await callGPT(prompt, state.apiKey);
+                        break;
+                    case 'claude':
+                        result = await callClaude(prompt, state.apiKey);
+                        break;
+                    case 'gemini':
+                        result = await callGemini(prompt, state.apiKey);
+                        break;
+                }
+
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('result').classList.remove('hidden');
+                document.getElementById('resultContent').textContent = result;
+            } catch (error) {
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('error').classList.remove('hidden');
+                document.getElementById('errorMessage').textContent = error.message;
+            }
+        });
+
+        // 초기화
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            state.selectedModel = null;
+            state.selectedTechnique = null;
+            state.apiKey = '';
+            state.inputValues = {};
+
+            document.getElementById('apiKey').value = '';
+            document.querySelectorAll('.card.selected').forEach(c => c.classList.remove('selected'));
+
+            renderTechniques();
+            renderInputFields();
+            checkFormValid();
+
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('error').classList.add('hidden');
+            document.getElementById('result').classList.add('hidden');
+        });
+
+        // 복사
+        document.getElementById('copyBtn').addEventListener('click', () => {
+            const text = document.getElementById('resultContent').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copyBtn');
+                const original = btn.textContent;
+                btn.textContent = '✅ 복사됨!';
+                setTimeout(() => btn.textContent = original, 2000);
+            });
+        });
+
+        // 초기 렌더링
+        renderTechniques();
+    </script>
+</body>
+</html>
